@@ -1,0 +1,4 @@
+/data/
+/feature-flags
+*.test
+*.out
