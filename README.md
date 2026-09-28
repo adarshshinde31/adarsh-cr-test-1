@@ -7,6 +7,7 @@ A minimal HTTP CRUD service for managing feature flags, backed by the local file
 ```
 main.go                       # wiring: flag parsing, HTTP server, signal handling
 internal/flags/flag.go        # FeatureFlag domain type
+internal/flags/flag_test.go   # recent-update behavior tests
 internal/flags/store.go       # Store interface + sentinel errors
 internal/flags/filestore.go   # filesystem-backed implementation
 internal/api/handlers.go      # HTTP handlers / routing
@@ -29,6 +30,10 @@ go run . --addr :8080 --data-dir ./data/flags
 | DELETE | `/flags/{key}` | —                                         | `204` / `404` |
 
 Keys must match `^[a-zA-Z0-9_.-]{1,128}$`.
+
+`FeatureFlag.IsRecentlyUpdated` can be used by clients that want to highlight
+flags changed within a positive time window. A missing or future update time is
+not considered recent.
 
 ## Adding a new backend
 
